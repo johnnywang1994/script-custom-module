@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CustomImport</title>
+  <script src="custom-module-core.js"></script>
+  <script type="custom-module-importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+      }
+    }
+  </script>
+  <script type="custom-module" id="foo">
+    export default {
+      value: 'foo'
+    }
+  </script>
+  <script>
+    CustomModule.setup();
+  </script>
+</head>
+<body>
+  <div id="app">
+    Hello World
+  </div>
+
+  <script type="module">
+    // const foo = (await customImport('foo')).default;
+    import foo from 'foo';
+    import { ref } from 'vue';
+    console.log(window.CustomModule, foo, ref);
+  </script>
+</body>
+</html>

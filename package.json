@@ -1,0 +1,25 @@
+{
+  "name": "custom-module",
+  "version": "1.0.0",
+  "main": "./dist/test.js",
+  "module": "./dist/test.min.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs3": "^7.17.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@rollup/plugin-babel": "^5.2.2",
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "cross-env": "^7.0.3",
+    "rollup": "^2.53.1",
+    "rollup-plugin-terser": "^7.0.2"
+  }
+}
