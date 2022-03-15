@@ -1,8 +1,25 @@
 {
   "name": "custom-module",
   "version": "1.0.0",
-  "main": "./dist/custom-module-core.js",
-  "module": "./dist/custom-module-core.min.js",
+  "main": "dist/custom-module-core.js",
+  "module": "dist/custom-module-core.min.js",
+  "author": "johnnywang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnnywang1994/custom-module.git"
+  },
+  "bugs": {
+    "url": "https://github.com/johnnywang1994/custom-module/issues"
+  },
+  "homepage": "https://github.com/johnnywang1994/custom-module#readme",
+  "keywords": [
+    "npm",
+    "module",
+    "esmodule",
+    "vue",
+    "react",
+    "sass"
+  ],
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
