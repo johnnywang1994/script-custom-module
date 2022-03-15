@@ -161,7 +161,7 @@ export default {
 
 ## Built-in Loader
 
-There are currently 5 default loaders can be used. we can access default loaders by `loaders`
+There are currently 5 default loaders can be used. we can access default loaders by `loaders`, you can find out the [default loaders here](https://github.com/johnnywang1994/custom-module/tree/master/src/loaders)
 
 - babel loader
 - css loader
@@ -207,6 +207,9 @@ console.log(foo);
 </script>
 ```
 
+> When using babel loader in ESModule, because the babel will transform the content into commonjs which is not compatible in browser, the loader will auto regenerate `export` syntax to fix the problem. but basically not recommend to use the `babel loader` in client, if you need to compile `jsx`, easily use the `react loader` instead.
+
+
 ### React Loader
 
 react loader transform `jsx` using babel presets `react`, so we need `@babel/standalone` too.
@@ -216,6 +219,8 @@ the default react loader imports following plugins
 - react-dom
 - react-is
 - styled-components
+
+1. Register our react components with `id`
 
 ```html
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -246,7 +251,7 @@ export default App;
 </script>
 ```
 
-and then init react app
+2. Init out react app
 
 ```html
 <div id="app"></div>
@@ -263,5 +268,123 @@ render(
 </script>
 ```
 
+
 ### Css/Sass Loader
+
+`css loader`, `sass loader` transforms `css`, `scss`, `sass` file into blobUrl and use `<link>` tag to inject them into document once we `import`.
+
+Remember to import the `sass.js` plugin when using `sass loader`.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/sass.js@0.11.1/dist/sass.sync.js"></script>
+<script type="custom-module" id="@/index.scss" src="index.scss" loader="sass"></script>
+<script src="custom-module-core.js"></script>
+<script>
+  CustomModule.loaders.SassLoader();
+  CustomModule.setup();
+</script>
+```
+
+then we can start using css in our client
+
+```html
+<script type="module">
+// import a css file will inject the styles into document
+// no import, no inject
+import indexScss from '@/index.scss';
+
+console.log(indexScss);
+</script>
+```
+
+> if your custom module has `mount` attribute on it, it'll be auto inject after setup
+
+```html
+<script type="custom-module" id="@/index.scss" src="index.scss" loader="sass" mount></script>
+```
+
+
+### Vue Loader
+
+`vue loader` uses `@vue/compiler-sfc` to compile your Vue SFC file into pure render function and scripts, the css part will use `css loader`, `sass loader` to handle.
+
+1. Register our components inline
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/sass.js@0.11.1/dist/sass.sync.js"></script>
+<script type="custom-module" id="@/App.vue" src="App.vue" loader="vue"></script>
+<script src="custom-module-core.js"></script>
+<script>
+  CustomModule.loaders.SassLoader();
+  CustomModule.loaders.VueLoader();
+  CustomModule.setup();
+</script>
+```
+
+2. Use our registered components in esmodules
+
+```html
+<div id="app"></div>
+
+<script type="module">
+import { createApp } from 'vue'
+import App from '@/App.vue'
+
+createApp(App).mount('#app')
+</script>
+```
+
+> Due to the limitation of `postcss-modules`, its not currently possible to compile `css modules` in client side, so `css modules` feature for SFC are not compatible with this plugin. But `scoped` feature works just fine.
+
+
+## APIs
+
+In `window.CustomModule`, we can use following methods & states.
+
+### setup(options)
+the core method to initialize this plugin, remember to call it after all your custom modules settings.
+
+```js
+CustomModule.setup({
+  // default shim for importmap, if you do not need shim for this, just pass empty for this option ''
+  esmShimUrl: 'https://ga.jspm.io/npm:es-module-shims@1.4.6/dist/es-module-shims.js',
+  // moduleType for CustomModule handle, you can name whatever you want
+  // default: custom-module
+  moduleType: 'custom-module',
+  loaders: {
+    // key in loaders refer from specific loader name
+    // you can pass your custom options into your loader here
+    css: {},
+    sass: {},
+    react: {},
+  }
+});
+```
+
+### defineLoader(loader)
+
+A valid loader would contains
+- name: `string`(required)
+- setup: `function`(optional)
+- transform: `function`(required)
+- imports: `importmap json`(optional)
+
+### registerDefault()
+
+`registerDefault` will register all default loaders, please include both `@babel/standalone` & `sass.js` before calling this method.
+
+### loaders
+
+containers for default loaders, you can also call `registerDefault` by loaders
+
+### importmap
+
+the final generated importmap json
+
+
+
+## Use Demos
+
+For more use demos, please [refer here](https://github.com/johnnywang1994/custom-module/tree/master/test)
+
 

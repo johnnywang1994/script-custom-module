@@ -21,10 +21,12 @@ let activeOptions = {};
 
 // https://github.com/guybedford/es-module-shims
 function loadEsmShim(shimUrl) {
-  const esmShim = document.createElement('script');
-  esmShim.setAttribute('async', true);
-  esmShim.setAttribute('src', shimUrl);
-  insertBefore(currentScript, esmShim);
+  if (shimUrl) {
+    const esmShim = document.createElement('script');
+    esmShim.setAttribute('async', true);
+    esmShim.setAttribute('src', shimUrl);
+    insertBefore(currentScript, esmShim);
+  }
 }
 
 async function setupLoaders() {

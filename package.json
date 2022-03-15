@@ -1,8 +1,8 @@
 {
   "name": "custom-module",
   "version": "1.0.0",
-  "main": "./dist/test.js",
-  "module": "./dist/test.min.js",
+  "main": "./dist/custom-module-core.js",
+  "module": "./dist/custom-module-core.min.js",
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",

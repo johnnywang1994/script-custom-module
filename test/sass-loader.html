@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sass Loader</title>
   <script src="https://cdn.jsdelivr.net/npm/sass.js@0.11.1/dist/sass.sync.js"></script>
-  <script type="custom-module" id="@/index.scss" src="index.scss" loader="sass"></script>
+  <script type="custom-module" id="@/index.scss" src="index.scss" loader="sass" mount></script>
   <script src="custom-module-core.js"></script>
   <script>
     CustomModule.loaders.SassLoader();
@@ -22,9 +22,9 @@
 
   <script type="module">
     // import css will inject the css file into document
-    import indexScss from '@/index.scss';
+    // import indexScss from '@/index.scss';
 
-    console.log(indexScss);
+    // console.log(indexScss);
   </script>
 </body>
 </html>

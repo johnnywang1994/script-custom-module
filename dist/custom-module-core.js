@@ -50,6 +50,8 @@
   }
 
   function BabelLoader() {
+    // TODO: babel env exports regexp
+    // /exports\.{1}(.*?)\s?\=\s?(.*?)(?<!void 0;)$/g
     CustomModule.defineLoader({
       name: 'babel',
       setup() {
@@ -66,7 +68,7 @@
           return `
 const exports = {};
 
-${resolvedCode.replace(/exports\.{1}(.*)\s+/g, 'export let $1 ')};
+${resolvedCode.replace(/(var.*)(?=\nexports)/g, 'export $1')}
 
 export default exports['default'];
         `;
@@ -352,10 +354,12 @@ export default script;
 
   // https://github.com/guybedford/es-module-shims
   function loadEsmShim(shimUrl) {
-    const esmShim = document.createElement('script');
-    esmShim.setAttribute('async', true);
-    esmShim.setAttribute('src', shimUrl);
-    insertBefore(currentScript, esmShim);
+    if (shimUrl) {
+      const esmShim = document.createElement('script');
+      esmShim.setAttribute('async', true);
+      esmShim.setAttribute('src', shimUrl);
+      insertBefore(currentScript, esmShim);
+    }
   }
 
   async function setupLoaders() {

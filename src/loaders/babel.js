@@ -17,7 +17,7 @@ export default function BabelLoader() {
         return `
 const exports = {};
 
-${resolvedCode};
+${resolvedCode.replace(/(var.*)(?=\nexports)/g, 'export $1')}
 
 export default exports['default'];
         `;
