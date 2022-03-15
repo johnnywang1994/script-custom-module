@@ -1,6 +1,6 @@
-# Custom Module
+# Script Custom Module
 
-A plugin to let developer customize own esmodule type to use inline module or compile content in client side.
+A plugin to let developer customize own script es module type to use custom module or compile content in client side.
 
 
 ## Install

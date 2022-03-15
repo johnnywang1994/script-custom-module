@@ -1,20 +1,20 @@
 {
-  "name": "custom-module",
+  "name": "script-custom-module",
   "version": "1.0.0",
   "main": "dist/custom-module-core.js",
   "module": "dist/custom-module-core.min.js",
   "author": "johnnywang",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johnnywang1994/custom-module.git"
+    "url": "git+https://github.com/johnnywang1994/script-custom-module.git"
   },
   "bugs": {
-    "url": "https://github.com/johnnywang1994/custom-module/issues"
+    "url": "https://github.com/johnnywang1994/script-custom-module/issues"
   },
-  "homepage": "https://github.com/johnnywang1994/custom-module#readme",
+  "homepage": "https://github.com/johnnywang1994/script-custom-module#readme",
   "keywords": [
     "npm",
-    "module",
+    "script module",
     "esmodule",
     "vue",
     "react",
