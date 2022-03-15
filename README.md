@@ -388,3 +388,6 @@ the final generated importmap json
 For more use demos, please [refer here](https://github.com/johnnywang1994/custom-module/tree/master/test)
 
 
+## Reference
+
+This plugin is mainly inspired by [inline-module](https://www.npmjs.com/package/inline-module), just modified about the loader system.
