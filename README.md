@@ -7,7 +7,7 @@ A plugin to let developer customize own script es module type to use custom modu
 Since this plugin is mainly used in client browser, simply install with CDN.
 
 ```html
-<script src="/custom-module-core.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/script-custom-module/dist/custom-module-core.min.js"></script>
 ```
 
 
