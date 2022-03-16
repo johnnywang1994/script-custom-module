@@ -15,6 +15,12 @@ const addCount = () => {
 }
 </script>
 
+<style lang="scss" scoped>
+.btn {
+  color: red;
+}
+</style>
+
 <style lang="scss">
 .btn {
   font-size: v-bind(fontsize);

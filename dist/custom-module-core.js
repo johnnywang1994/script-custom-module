@@ -207,10 +207,11 @@ export default code;
             // parse styles with scoped check
             let hasCssModules = false;
             let hasScoped = false;
-            descriptor.styles.forEach(({ attrs, content, scoped, module }) => {
+            descriptor.styles.forEach(({ attrs, content, scoped, module }, index) => {
               // TODO: css module support
               if (module) hasCssModules = true;
               if (scoped) hasScoped = true;
+              const styleUid = uid + index;
               compileStyleAsync({
                 source: content,
                 id: `data-v-${uid}`,
@@ -218,7 +219,7 @@ export default code;
                 scoped,
                 trim: true,
               }).then(({ code: styleCode }) => {
-                injectStyle(styleCode, uid, attrs.lang);
+                injectStyle(styleCode, styleUid, attrs.lang);
               });
             });
 
