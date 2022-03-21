@@ -361,6 +361,8 @@ CustomModule.setup({
 });
 ```
 
+> If your using `custom-module` in your iframe, the default `esmShimUrl` will cause error, just give it empty value will remove the `cross-origin` error.
+
 ### defineLoader(loader)
 
 A valid loader would contains
