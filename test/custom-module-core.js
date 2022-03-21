@@ -194,11 +194,10 @@ export default code;
             const { parse, compileScript, compileTemplate, compileStyleAsync } = compiler;
 
             // parse code by atob(to safely transform string content)
-            console.log(decodeURI(code));
             const { descriptor } = parse(window.decodeURI(code), {
               filename: filepath
             });
-            console.log(descriptor);
+            // console.log(descriptor);
 
             // compile script
             const { content: scriptCode } = compileScript(descriptor, {
@@ -377,7 +376,8 @@ export default script;
   }
 
   function createContext(moduleEl, code) {
-    const filepath = moduleEl.getAttribute('src') || '';
+    // must have file extension for @vue/compiler to generate mapping
+    const filepath = moduleEl.getAttribute('src') || moduleEl.id;
     return {
       code,
       filepath,
@@ -395,9 +395,8 @@ export default script;
       const url = moduleEl.getAttribute('src');
       jsCode = loadContent(url);
       moduleEl.textContent = jsCode;
-    } else if (moduleEl.hasAttribute('raw')) {
-      jsCode = moduleEl.textContent = decodeURI(moduleEl.getAttribute('raw'));
-      console.log(jsCode);
+    } else if (moduleEl.hasAttribute('decode')) {
+      jsCode = moduleEl.textContent = decodeURI(moduleEl.textContent);
     }
 
     // handle loaders

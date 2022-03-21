@@ -42,7 +42,8 @@ async function setupLoaders() {
 }
 
 function createContext(moduleEl, code) {
-  const filepath = moduleEl.getAttribute('src') || '';
+  // must have file extension for @vue/compiler to generate mapping
+  const filepath = moduleEl.getAttribute('src') || moduleEl.id;
   return {
     code,
     filepath,
@@ -60,9 +61,8 @@ async function getBlobUrl(moduleEl) {
     const url = moduleEl.getAttribute('src');
     jsCode = loadContent(url);
     moduleEl.textContent = jsCode;
-  } else if (moduleEl.hasAttribute('raw')) {
-    jsCode = moduleEl.textContent = decodeURI(moduleEl.getAttribute('raw'));
-    console.log(jsCode);
+  } else if (moduleEl.hasAttribute('decode')) {
+    jsCode = moduleEl.textContent = decodeURI(moduleEl.textContent);
   }
 
   // handle loaders
