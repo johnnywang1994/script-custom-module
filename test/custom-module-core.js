@@ -194,10 +194,11 @@ export default code;
             const { parse, compileScript, compileTemplate, compileStyleAsync } = compiler;
 
             // parse code by atob(to safely transform string content)
-            const { descriptor } = parse(window.atob(code), {
+            console.log(decodeURI(code));
+            const { descriptor } = parse(window.decodeURI(code), {
               filename: filepath
             });
-            // console.log(descriptor);
+            console.log(descriptor);
 
             // compile script
             const { content: scriptCode } = compileScript(descriptor, {
@@ -276,7 +277,7 @@ export default code;
       },
       transform({ code, uid, filepath, filename }) {
         const options = {
-          code: window.btoa(code),
+          code: window.encodeURI(code),
           uid,
           filepath,
           filename,
@@ -388,12 +389,15 @@ export default script;
 
   async function getBlobUrl(moduleEl) {
     // inline
-    let jsCode = moduleEl.innerHTML;
+    let jsCode = moduleEl.textContent;
     // remote
     if (moduleEl.hasAttribute('src')) {
       const url = moduleEl.getAttribute('src');
       jsCode = loadContent(url);
-      moduleEl.innerHTML = jsCode;
+      moduleEl.textContent = jsCode;
+    } else if (moduleEl.hasAttribute('raw')) {
+      jsCode = moduleEl.textContent = decodeURI(moduleEl.getAttribute('raw'));
+      console.log(jsCode);
     }
 
     // handle loaders

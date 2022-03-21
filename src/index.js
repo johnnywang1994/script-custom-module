@@ -54,12 +54,15 @@ function createContext(moduleEl, code) {
 
 async function getBlobUrl(moduleEl) {
   // inline
-  let jsCode = moduleEl.innerHTML;
+  let jsCode = moduleEl.textContent;
   // remote
   if (moduleEl.hasAttribute('src')) {
     const url = moduleEl.getAttribute('src');
     jsCode = loadContent(url);
-    moduleEl.innerHTML = jsCode;
+    moduleEl.textContent = jsCode;
+  } else if (moduleEl.hasAttribute('raw')) {
+    jsCode = moduleEl.textContent = decodeURI(moduleEl.getAttribute('raw'));
+    console.log(jsCode);
   }
 
   // handle loaders
