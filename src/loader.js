@@ -3,6 +3,7 @@ import CssLoader from './loaders/css';
 import ReactLoader from './loaders/react';
 import SassLoader from './loaders/sass';
 import VueLoader from './loaders/vue';
+import TsLoader from './loaders/typescript';
 
 export function registerDefault() {
   BabelLoader();
@@ -10,6 +11,7 @@ export function registerDefault() {
   CssLoader();
   SassLoader();
   VueLoader();
+  TsLoader();
 }
 
 export default {
@@ -18,5 +20,6 @@ export default {
   ReactLoader,
   SassLoader,
   VueLoader,
+  TsLoader,
   registerDefault,
 }

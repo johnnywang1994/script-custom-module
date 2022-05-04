@@ -3,10 +3,10 @@
   <button class="btn" @click="addCount">ADD COUNT</button>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 
-const count = ref(16);
+const count = ref<number>(16);
 
 const fontsize = computed(() => count.value + 'px');
 

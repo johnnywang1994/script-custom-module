@@ -15,9 +15,24 @@ export default function VueLoader() {
           // console.log(descriptor);
 
           // compile script
-          const { content: scriptCode } = compileScript(descriptor, {
+          const { script, scriptSetup } = descriptor;
+          const scriptLang = script && script.lang
+          const scriptSetupLang = scriptSetup && scriptSetup.lang
+          const isTS =
+            scriptLang === 'ts' ||
+            scriptLang === 'tsx' ||
+            scriptSetupLang === 'ts' ||
+            scriptSetupLang === 'tsx';
+
+          let { content: scriptCode } = compileScript(descriptor, {
             id: uid,
           });
+          if (isTS) {
+            scriptCode = window.__custom_ts_loader__({
+              code: scriptCode,
+              filepath: filepath + '.ts' // trigger compile
+            })
+          }
 
           // parse styles with scoped check
           let hasCssModules = false;

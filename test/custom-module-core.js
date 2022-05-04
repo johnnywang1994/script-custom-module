@@ -78,7 +78,7 @@ export default exports['default'];
     });
   }
 
-  function CssLoader$1() {
+  function CssLoader() {
     window.__custom_css_cache__ = window.__custom_css_cache__ || {};
 
     CustomModule.defineLoader({
@@ -111,21 +111,26 @@ export default code;
     });
   }
 
-  function CssLoader() {
+  function ReactLoader() {
     CustomModule.defineLoader({
       name: 'react',
       setup() {
         if (!window.Babel) {
           console.warn('please install "https://unpkg.com/@babel/standalone/babel.min.js" to use react.');
+        } else {
+          window.__custom_react_loader__ = ({ code, filepath }) => {
+            if (!window.Babel) return code;
+            const { availablePresets, transform } = Babel;
+            const { code: resolvedCode } = transform(code, {
+              presets: [availablePresets.react],
+              filename: filepath,
+            });
+            return resolvedCode;
+          };
         }
       },
-      transform({ code }) {
-        if (!window.Babel) return code;
-        const { transform } = Babel;
-        const { code: resolvedCode } = transform(code, {
-          presets: ['react'],
-        });
-        return resolvedCode;
+      transform(ctx) {
+        return window.__custom_react_loader__(ctx);
       },
       imports: {
         react: 'https://unpkg.com/@esm-bundle/react/esm/react.development.js',
@@ -200,9 +205,24 @@ export default code;
             // console.log(descriptor);
 
             // compile script
-            const { content: scriptCode } = compileScript(descriptor, {
+            const { script, scriptSetup } = descriptor;
+            const scriptLang = script && script.lang;
+            const scriptSetupLang = scriptSetup && scriptSetup.lang;
+            const isTS =
+              scriptLang === 'ts' ||
+              scriptLang === 'tsx' ||
+              scriptSetupLang === 'ts' ||
+              scriptSetupLang === 'tsx';
+
+            let { content: scriptCode } = compileScript(descriptor, {
               id: uid,
             });
+            if (isTS) {
+              scriptCode = window.__custom_ts_loader__({
+                code: scriptCode,
+                filepath: filepath + '.ts' // trigger compile
+              });
+            }
 
             // parse styles with scoped check
             let hasCssModules = false;
@@ -325,20 +345,47 @@ export default script;
     });
   }
 
+  function TsLoader() {
+    CustomModule.defineLoader({
+      name: 'typescript',
+      setup() {
+        if (!window.Babel) {
+          console.warn('please install "https://unpkg.com/@babel/standalone/babel.min.js" to use typescript.');
+        } else {
+          window.__custom_ts_loader__ = ({ code, filepath }) => {
+            if (!window.Babel) return code;
+            const { availablePresets, transform } = Babel;
+            const { code: resolvedCode } = transform(code, {
+              presets: [availablePresets.typescript],
+              filename: filepath,
+            });
+            return resolvedCode;
+          };
+        }
+      },
+      transform(ctx) {
+        return window.__custom_ts_loader__(ctx);
+      },
+      imports: {}
+    });
+  }
+
   function registerDefault() {
     BabelLoader();
+    ReactLoader();
     CssLoader();
-    CssLoader$1();
     SassLoader();
     VueLoader();
+    TsLoader();
   }
 
   var Loaders = {
     BabelLoader,
-    CssLoader: CssLoader$1,
-    ReactLoader: CssLoader,
+    CssLoader,
+    ReactLoader,
     SassLoader,
     VueLoader,
+    TsLoader,
     registerDefault,
   };
 
