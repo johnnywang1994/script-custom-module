@@ -1,6 +1,6 @@
 {
   "name": "script-custom-module",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "dist/custom-module-core.js",
   "module": "dist/custom-module-core.min.js",
   "author": "johnnywang",
