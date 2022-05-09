@@ -371,7 +371,8 @@ export default script;
               // https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport
               plugins: [
                 [availablePlugins['proposal-decorators'], {
-                  decoratorsBeforeExport: false
+                  // decoratorsBeforeExport: true,
+                  version: 'legacy'
                 }],
                 availablePlugins['proposal-class-properties']
               ],
