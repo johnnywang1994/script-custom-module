@@ -38,11 +38,11 @@ console.log(foo);
 ### Online
 or try the online demo [Here](https://www.maju-web.club/local), besides using normal editor, there are two special compile option you can use this tool.
 
-Put flowing text to `html` block editor
+Put following text to `html` block editor
 - Vue3 SFC: `<!--inline-vue-->`
 - Tsx: `<!--inline-js-->`
 
-### Vue Editor
+#### Vue Editor
 you can use vue single file in the js editor by inputing `<!--inline-vue-->` in html editor, and the js editor will become the `main.js` for you.
 
 ```html
