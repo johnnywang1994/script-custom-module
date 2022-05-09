@@ -32,7 +32,7 @@ then we can use the module by calling window event `customImport` as following i
 // this will call the dynamic `import` method in esmodule
 const foo = (await customImport('foo')).default;
 console.log(foo);
-<script>
+</script>
 ```
 
 ### Online
@@ -62,7 +62,7 @@ const fontsize = computed(() => count.value + 'px');
 const addCount = () => {
   count.value += 1;
 }
-</script>
+</>
 
 <style lang="scss" scoped>
 .btn {
@@ -233,6 +233,7 @@ There are currently 5 default loaders can be used. we can access default loaders
 - sass loader
 - react loader
 - vue loader
+- ts loader
 
 ```js
 console.log(CustomModule.loaders);
@@ -291,6 +292,12 @@ the default react loader imports following plugins
 - styled-components
 
 1. Register our react components with `id`
+
+if you need typescript, just put `typescript` before `react` as
+
+```html
+<script type="custom-module" id="@/App.jsx" loader="typescript react"></script>
+```
 
 ```html
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
