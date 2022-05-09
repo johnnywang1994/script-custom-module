@@ -12,6 +12,8 @@ Since this plugin is mainly used in client browser, simply install with CDN.
 
 
 ## Quick Usage
+
+### Local
 Define your custom module by giving it an `id`.
 
 ```html
@@ -33,6 +35,69 @@ console.log(foo);
 <script>
 ```
 
+### Online
+or try the online demo [Here](https://www.maju-web.club/local), besides using normal editor, there are two special compile option you can use this tool.
+
+Put flowing text to `html` block editor
+- Vue3 SFC: `<!--inline-vue-->`
+- Tsx: `<!--inline-js-->`
+
+### Vue Editor
+you can use vue single file in the js editor by inputing `<!--inline-vue-->` in html editor, and the js editor will become the `main.js` for you.
+
+```html
+<!--inline-vue-->
+<template>
+  Count: {{ count }}
+  <button class="btn" @click="addCount">ADD COUNT</button>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+
+const count = ref<number>(16);
+
+const fontsize = computed(() => count.value + 'px');
+
+const addCount = () => {
+  count.value += 1;
+}
+</script>
+
+<style lang="scss" scoped>
+.btn {
+  color: red;
+}
+</style>
+
+<style lang="scss">
+.btn {
+  font-size: v-bind(fontsize);
+}
+</style>
+```
+
+
+#### React Editor
+you can use typescript or jsx in the js editor by inputing `<!--inline-js-->` in html editor
+
+```html
+<!--inline-js-->
+<div id="app"></div>
+```
+
+```jsx
+import React from 'react';
+import { render } from 'react-dom';
+
+function App() {
+  return <div>Hello React</div>
+}
+
+render(<App />, document.getElementById('app'));
+```
+
+
 
 ## Setup Custom Modules
 We can import a custom module by calling `customImport`, but what if we need to use a bunch of custom modules
@@ -40,7 +105,7 @@ We can import a custom module by calling `customImport`, but what if we need to 
 we can use the `setup` method to initialize all the custom modules, and register them to the `importmap`, so that we can easily import our custom modules by just calling native `import` method
 
 ```html
-<script src="/custom-module-core.js"></script>
+<script src="/custom-module-core.js"></scrip>
 <script type="custom-module" id="foo">
   export default {
     foo: 'hello foo'
@@ -177,7 +242,7 @@ console.log(CustomModule.loaders);
 
 to register a default loader, easily call the loader function before `setup`
 
-> Babel Loader needs `@babel/standalone` be installed. By default it only uses with presets `env`.
+> Babel Loader needs `@babel/standalone` be installed. By default it only uses with presets `env` with plugins `proposal-decorators`, `proposal-class-properties`.
 
 ```html
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -208,6 +273,11 @@ console.log(foo);
 ```
 
 > When using babel loader in ESModule, because the babel will transform the content into commonjs which is not compatible in browser, the loader will auto regenerate `export` syntax to fix the problem. but basically not recommend to use the `babel loader` in client, if you need to compile `jsx`, easily use the `react loader` instead.
+
+
+### Typescript Loader
+
+`typescript loader` transform `typescript` syntax by preset `babel-typescript`, the same plugin with `babel loader`.
 
 
 ### React Loader

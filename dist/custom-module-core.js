@@ -66,7 +66,8 @@
               // https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport
               plugins: [
                 [availablePlugins['proposal-decorators'], {
-                  decoratorsBeforeExport: false
+                  // decoratorsBeforeExport: false,
+                  version: 'legacy'
                 }],
                 availablePlugins['proposal-class-properties']
               ],
@@ -130,7 +131,8 @@ export default code;
               // https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport
               plugins: [
                 [availablePlugins['proposal-decorators'], {
-                  decoratorsBeforeExport: false
+                  // decoratorsBeforeExport: false,
+                  version: 'legacy'
                 }],
                 availablePlugins['proposal-class-properties']
               ],
@@ -371,7 +373,8 @@ export default script;
               // https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport
               plugins: [
                 [availablePlugins['proposal-decorators'], {
-                  decoratorsBeforeExport: false
+                  // decoratorsBeforeExport: false,
+                  version: 'legacy'
                 }],
                 availablePlugins['proposal-class-properties']
               ],
