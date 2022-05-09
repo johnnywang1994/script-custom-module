@@ -1,28 +1,32 @@
 export default function BabelLoader() {
-  // TODO: babel env exports regexp
-  // /exports\.{1}(.*?)\s?\=\s?(.*?)(?<!void 0;)$/g
   CustomModule.defineLoader({
     name: 'babel',
     setup() {
       if (!window.Babel) {
         console.warn('please install "https://unpkg.com/@babel/standalone/babel.min.js" to use babel.');
+      } else {
+        window.__custom_babel_loader__ = ({ code, filepath }, loaderOptions = {}) => {
+          if (!window.Babel) return code;
+          const { availablePresets, availablePlugins, transform } = Babel;
+          const { code: resolvedCode } = transform(code, loaderOptions.babel || {
+            presets: [
+              [availablePresets.env, { modules: false }],
+            ],
+            // https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport
+            plugins: [
+              [availablePlugins['proposal-decorators'], {
+                decoratorsBeforeExport: false
+              }],
+              availablePlugins['proposal-class-properties']
+            ],
+            filename: filepath,
+          });
+          return resolvedCode;
+        };
       }
     },
-    transform({ code }, { loaderOptions = {} }) {
-      if (!window.Babel) return code;
-      const { transform } = Babel;
-      loaderOptions.babel = loaderOptions.babel || { presets: ['env'] };
-      const { code: resolvedCode } = transform(code, loaderOptions.babel);
-      if (loaderOptions.babel.presets.includes('env')) {
-        return `
-const exports = {};
-
-${resolvedCode.replace(/(var.*)(?=\nexports)/g, 'export $1')}
-
-export default exports['default'];
-        `;
-      }
-      return resolvedCode;
+    transform(ctx, { loaderOptions = {} }) {
+      return window.__custom_babel_loader__(ctx, loaderOptions);
     },
   });
 }

@@ -50,30 +50,34 @@
   }
 
   function BabelLoader() {
-    // TODO: babel env exports regexp
-    // /exports\.{1}(.*?)\s?\=\s?(.*?)(?<!void 0;)$/g
     CustomModule.defineLoader({
       name: 'babel',
       setup() {
         if (!window.Babel) {
           console.warn('please install "https://unpkg.com/@babel/standalone/babel.min.js" to use babel.');
+        } else {
+          window.__custom_babel_loader__ = ({ code, filepath }, loaderOptions = {}) => {
+            if (!window.Babel) return code;
+            const { availablePresets, availablePlugins, transform } = Babel;
+            const { code: resolvedCode } = transform(code, loaderOptions.babel || {
+              presets: [
+                [availablePresets.env, { modules: false }],
+              ],
+              // https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport
+              plugins: [
+                [availablePlugins['proposal-decorators'], {
+                  decoratorsBeforeExport: false
+                }],
+                availablePlugins['proposal-class-properties']
+              ],
+              filename: filepath,
+            });
+            return resolvedCode;
+          };
         }
       },
-      transform({ code }, { loaderOptions = {} }) {
-        if (!window.Babel) return code;
-        const { transform } = Babel;
-        loaderOptions.babel = loaderOptions.babel || { presets: ['env'] };
-        const { code: resolvedCode } = transform(code, loaderOptions.babel);
-        if (loaderOptions.babel.presets.includes('env')) {
-          return `
-const exports = {};
-
-${resolvedCode.replace(/(var.*)(?=\nexports)/g, 'export $1')}
-
-export default exports['default'];
-        `;
-        }
-        return resolvedCode;
+      transform(ctx, { loaderOptions = {} }) {
+        return window.__custom_babel_loader__(ctx, loaderOptions);
       },
     });
   }
@@ -118,19 +122,26 @@ export default code;
         if (!window.Babel) {
           console.warn('please install "https://unpkg.com/@babel/standalone/babel.min.js" to use react.');
         } else {
-          window.__custom_react_loader__ = ({ code, filepath }) => {
+          window.__custom_react_loader__ = ({ code, filepath }, loaderOptions = {}) => {
             if (!window.Babel) return code;
-            const { availablePresets, transform } = Babel;
-            const { code: resolvedCode } = transform(code, {
+            const { availablePresets, availablePlugins, transform } = Babel;
+            const { code: resolvedCode } = transform(code, loaderOptions.react || {
               presets: [availablePresets.react],
+              // https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport
+              plugins: [
+                [availablePlugins['proposal-decorators'], {
+                  decoratorsBeforeExport: false
+                }],
+                availablePlugins['proposal-class-properties']
+              ],
               filename: filepath,
             });
             return resolvedCode;
           };
         }
       },
-      transform(ctx) {
-        return window.__custom_react_loader__(ctx);
+      transform(ctx, { loaderOptions = {} }) {
+        return window.__custom_react_loader__(ctx, loaderOptions);
       },
       imports: {
         react: 'https://unpkg.com/@esm-bundle/react/esm/react.development.js',
@@ -352,19 +363,26 @@ export default script;
         if (!window.Babel) {
           console.warn('please install "https://unpkg.com/@babel/standalone/babel.min.js" to use typescript.');
         } else {
-          window.__custom_ts_loader__ = ({ code, filepath }) => {
+          window.__custom_ts_loader__ = ({ code, filepath }, loaderOptions = {}) => {
             if (!window.Babel) return code;
-            const { availablePresets, transform } = Babel;
-            const { code: resolvedCode } = transform(code, {
+            const { availablePresets, availablePlugins, transform } = Babel;
+            const { code: resolvedCode } = transform(code, loaderOptions.typescript || {
               presets: [availablePresets.typescript],
+              // https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport
+              plugins: [
+                [availablePlugins['proposal-decorators'], {
+                  decoratorsBeforeExport: false
+                }],
+                availablePlugins['proposal-class-properties']
+              ],
               filename: filepath,
             });
             return resolvedCode;
           };
         }
       },
-      transform(ctx) {
-        return window.__custom_ts_loader__(ctx);
+      transform(ctx, { loaderOptions = {} }) {
+        return window.__custom_ts_loader__(ctx, loaderOptions);
       },
       imports: {}
     });

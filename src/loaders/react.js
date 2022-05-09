@@ -5,19 +5,26 @@ export default function ReactLoader() {
       if (!window.Babel) {
         console.warn('please install "https://unpkg.com/@babel/standalone/babel.min.js" to use react.');
       } else {
-        window.__custom_react_loader__ = ({ code, filepath }) => {
+        window.__custom_react_loader__ = ({ code, filepath }, loaderOptions = {}) => {
           if (!window.Babel) return code;
-          const { availablePresets, transform } = Babel;
-          const { code: resolvedCode } = transform(code, {
+          const { availablePresets, availablePlugins, transform } = Babel;
+          const { code: resolvedCode } = transform(code, loaderOptions.react || {
             presets: [availablePresets.react],
+            // https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport
+            plugins: [
+              [availablePlugins['proposal-decorators'], {
+                decoratorsBeforeExport: false
+              }],
+              availablePlugins['proposal-class-properties']
+            ],
             filename: filepath,
           });
           return resolvedCode;
         };
       }
     },
-    transform(ctx) {
-      return window.__custom_react_loader__(ctx);
+    transform(ctx, { loaderOptions = {} }) {
+      return window.__custom_react_loader__(ctx, loaderOptions);
     },
     imports: {
       react: 'https://unpkg.com/@esm-bundle/react/esm/react.development.js',
