@@ -1,10 +1,16 @@
+import sum from '@/sum.ts'
+
+console.log(sum);
+
 function logDec(target, propName) {
-  let value = target[propName];
+  console.log(target);
   Object.defineProperty(target, propName, {
-    get: () => value,
-    set: (newVal) => {
+    get() {
+      return this[`_${propName}`];
+    },
+    set(newVal) {
       console.log('gocha');
-      value = newVal;
+      this[`_${propName}`] = newVal;
     }
   })
 }
@@ -19,3 +25,4 @@ class User {
 }
 
 const johnny = new User('johnny');
+console.log(johnny);
