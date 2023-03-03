@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play</title>
+  <script src="https://cdn.jsdelivr.net/npm/script-custom-module/dist/custom-script.global.js"></script>
+  <script>
+    window.CustomScript.setup({
+      entry: 'src/index.jsx',
+      vueCompilerPath: 'https://cdn.jsdelivr.net/npm/script-custom-module/dist/vue-parser.mjs',
+      importmap: {
+        imports: {
+          // react compile
+          react: 'https://unpkg.com/@esm-bundle/react/esm/react.development.js',
+          'react-dom': 'https://unpkg.com/@esm-bundle/react-dom/esm/react-dom.development.js',
+          'react-is': 'https://unpkg.com/@esm-bundle/react-is/esm/react-is.development.js',
+          'styled-components': 'https://unpkg.com/@esm-bundle/styled-components/esm/styled-components.browser.min.js',
+          // vue compile
+          vue: 'https://unpkg.com/vue@3.2.41/dist/vue.esm-browser.js',
+          '@vue/compiler-sfc': 'https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@3.2.41/dist/compiler-sfc.esm-browser.js',
+        },
+        scopes: {}
+      },
+    });
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+</body>
+</html>

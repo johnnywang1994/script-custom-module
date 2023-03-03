@@ -1,8 +1,8 @@
 {
   "name": "script-custom-module",
   "version": "1.1.0",
-  "main": "dist/custom-module-core.js",
-  "module": "dist/custom-module-core.min.js",
+  "main": "dist/custom-script.global.js",
+  "module": "dist/custom-script.global.js",
   "author": "johnnywang",
   "repository": {
     "type": "git",
@@ -22,14 +22,11 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
-    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js"
+    "dev": "tsup --watch",
+    "build": "tsup --minify"
   },
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^15.1.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "cross-env": "^7.0.3",
-    "rollup": "^2.53.1",
-    "rollup-plugin-terser": "^7.0.2"
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.2.47",
+    "tsup": "^6.6.3"
   }
 }

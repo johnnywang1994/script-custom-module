@@ -1,5 +1,7 @@
 .gitignore
-rollup.config.js
+tsup.config.js
 yarn.lock
 /src/
 /test/
+aditional.d.ts
+tsconfig.json
