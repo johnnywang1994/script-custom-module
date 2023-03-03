@@ -25,7 +25,7 @@ CustomScript.setup({
 </script>
 ```
 
-> Notice: `setup` will parse every from entrypoint, and loop into its dependencies.
+> Notice: `setup` will parse dependency from specific entrypoint, and loop into its dependencies.
 
 ### Run up a local server to serve your static content
 you can install [serve](https://www.npmjs.com/package/serve) or any other http service to run up a dev server for your folder.
@@ -36,7 +36,7 @@ you can install [serve](https://www.npmjs.com/package/serve) or any other http s
 In `window.CustomScript`, we can use following methods & states.
 
 ### setup(options)
-the core method to initialize this plugin, remember to call it after all your custom modules settings.
+the core method to initialize this plugin.
 
 ```js
 CustomScript.setup({
@@ -62,9 +62,6 @@ CustomScript.setup({
   },
 });
 ```
-
-> If your using `custom-module` in your iframe, the default `esmShimUrl` will cause error, just give it empty value will remove the `cross-origin` error.
-
 
 
 ## Compile feature
