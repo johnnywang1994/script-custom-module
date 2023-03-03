@@ -105,3 +105,4 @@ dist/*.map
 .tern-port
 
 .DS_Store
+dist/
