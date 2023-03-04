@@ -8,21 +8,11 @@
   <script src="https://cdn.jsdelivr.net/npm/script-custom-module/dist/custom-script.global.js"></script>
   <script>
     window.CustomScript.setup({
+      // if not provided, will search for `<script type="root-module">` textContent to compile as entry
       entry: 'src/index.jsx',
-      vueCompilerPath: 'https://cdn.jsdelivr.net/npm/script-custom-module/dist/vue-parser.mjs',
-      importmap: {
-        imports: {
-          // react compile
-          react: 'https://unpkg.com/@esm-bundle/react/esm/react.development.js',
-          'react-dom': 'https://unpkg.com/@esm-bundle/react-dom/esm/react-dom.development.js',
-          'react-is': 'https://unpkg.com/@esm-bundle/react-is/esm/react-is.development.js',
-          'styled-components': 'https://unpkg.com/@esm-bundle/styled-components/esm/styled-components.browser.min.js',
-          // vue compile
-          vue: 'https://unpkg.com/vue@3.2.41/dist/vue.esm-browser.js',
-          '@vue/compiler-sfc': 'https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@3.2.41/dist/compiler-sfc.esm-browser.js',
-        },
-        scopes: {}
-      },
+      // default: ts
+      // available: ts, react(react18), react17, vue, all(ts + react + vue)
+      mode: 'all',
     });
   </script>
 </head>

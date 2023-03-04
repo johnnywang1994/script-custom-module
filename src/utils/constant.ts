@@ -1,3 +1,4 @@
+import mergeImportMaps from "@/utils/merge-importmaps";
 import { ImportMap } from "@/types";
 
 // Not used, just for referencing
@@ -28,5 +29,57 @@ export const regexp = {
 
 export const globalData = {
   publicPath: '', // prefix for all requestContent
-  vueCompiler: '', // vue compiler esm path
+  // vue compiler esm path
+  vueCompiler:
+    'https://cdn.jsdelivr.net/npm/script-custom-module/dist/vue-parser.mjs',
 };
+
+export enum Modes {
+  TS = 'ts',
+  REACT = 'react',
+  REACT_17 = 'react17',
+  VUE = 'vue',
+  ALL = 'all',
+}
+
+export const modeImportMaps: Record<Modes, ImportMap> = (() => {
+  const config = {
+    ts: {
+      imports: {},
+      scopes: {},
+    },
+    react: {
+      imports: {
+        "react": "https://ga.jspm.io/npm:react@18.2.0/dev.index.js",
+        "react-dom": "https://ga.jspm.io/npm:react-dom@18.2.0/dev.index.js",
+        "react-dom/client": "https://ga.jspm.io/npm:react-dom@18.2.0/dev.client.js",
+      },
+      scopes: {
+        "https://ga.jspm.io/": {
+          "scheduler": "https://ga.jspm.io/npm:scheduler@0.23.0/dev.index.js"
+        },
+      },
+    },
+    react17: {
+      imports: {
+        react: 'https://unpkg.com/@esm-bundle/react/esm/react.development.js',
+        'react-dom': 'https://unpkg.com/@esm-bundle/react-dom/esm/react-dom.development.js',
+        'react-is': 'https://unpkg.com/@esm-bundle/react-is/esm/react-is.development.js',
+      },
+      scopes: {},
+    },
+    vue: {
+      imports: {
+        vue: 'https://unpkg.com/vue@latest/dist/vue.esm-browser.js',
+        '@vue/compiler-sfc': 'https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@latest/dist/compiler-sfc.esm-browser.js',
+      },
+      scopes: {},
+    },
+    all: {
+      imports: {},
+      scopes: {},
+    },
+  };
+  config.all = mergeImportMaps(config.ts, config.react, config.vue);
+  return config;
+})();
