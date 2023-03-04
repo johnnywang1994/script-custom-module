@@ -1,6 +1,6 @@
 {
   "name": "script-custom-module",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "main": "dist/custom-script.global.js",
   "module": "dist/custom-script.global.js",
   "author": "johnnywang",
