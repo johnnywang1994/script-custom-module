@@ -1,3 +1,10 @@
+<p align="center">
+  <a href="https://npmcharts.com/compare/script-custom-module?minimal=true"><img src="https://img.shields.io/npm/dm/script-custom-module.svg?sanitize=true" alt="Downloads"></a>
+  <a href="https://www.npmjs.com/package/script-custom-module"><img src="https://img.shields.io/npm/v/script-custom-module.svg?sanitize=true" alt="Version"></a>
+  <a href="https://www.jsdelivr.com/package/npm/script-custom-module"><img src="https://data.jsdelivr.com/v1/package/npm/script-custom-module/badge" /></a>
+  <a href="https://www.npmjs.com/package/script-custom-module"><img src="https://img.shields.io/npm/l/script-custom-module.svg?sanitize=true" alt="License"></a>
+</p>
+
 # Script Custom Module
 
 A plugin written by Typescript to let developer compile ts,react,vue content in client side with native es module. No  bundler, just with one CDN and 4 lines configuration, and you are ready to use your favorite ES javascript to prototype your new idea.
