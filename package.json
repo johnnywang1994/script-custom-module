@@ -12,6 +12,7 @@
     "url": "https://github.com/johnnywang1994/script-custom-module/issues"
   },
   "homepage": "https://github.com/johnnywang1994/script-custom-module#readme",
+  "types": "dist/custom-script.d.ts",
   "keywords": [
     "npm",
     "script module",
@@ -27,6 +28,7 @@
   },
   "dependencies": {
     "@vue/compiler-sfc": "^3.2.47",
-    "tsup": "^6.6.3"
+    "tsup": "^6.6.3",
+    "typescript": "^4.9.5"
   }
 }

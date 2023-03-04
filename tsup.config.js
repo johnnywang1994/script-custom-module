@@ -5,6 +5,7 @@ export default [defineConfig({
   entry: {
     'custom-script': 'src/index.ts',
   },
+  dts: true,
   format: ['iife'],
   globalName: 'CustomScript',
   splitting: false,

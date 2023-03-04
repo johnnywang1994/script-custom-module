@@ -1,6 +1,6 @@
 # Script Custom Module
 
-A plugin to let developer compile ts,react,vue content in client side with native es module. No  bundler, just with one CDN and 4 lines configuration, and you are ready to use your favorite ES javascript to prototype your new idea.
+A plugin written by Typescript to let developer compile ts,react,vue content in client side with native es module. No  bundler, just with one CDN and 4 lines configuration, and you are ready to use your favorite ES javascript to prototype your new idea.
 
 
 ## Install
@@ -95,7 +95,6 @@ dependency end with extension `css`, `scss` will got compiled by `Sass`, and aut
 ### Vue Compile
 dependency end with extension `vue` will got compiled by `@vue/compiler-sfc` plugin by esm, and auto generated `js`, `css` into `<head>` to load content.
 
-> need to give the `vueCompilerPath` to `setup` options so that Vue compile can be compiled correctly.
 
 ### Sourcemap Mode
 with sourcemap mode, all dependency are injected by a user provided map object, and CustomScript will only process those rawCode you provided in map to generate compiled content to serve on browser.
