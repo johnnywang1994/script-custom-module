@@ -1,6 +1,6 @@
 # Script Custom Module
 
-A plugin to let developer customize own script es module type to use custom module or compile content in client side.
+A plugin to let developer compile ts,react,vue content in client side with native es module. No  bundler, just with one CDN, and you are ready to use your favorite ES javascript to prototype your new idea.
 
 
 ## Install
@@ -14,18 +14,43 @@ Since this plugin is mainly used in client browser, simply install with CDN.
 ## Quick Usage
 
 ### Setup Custom Scripts
-we can use the `setup` method to initialize from specific entrypoint file, then all dependency will got auto registered to the `importmap`, so that we can easily import our dependency by just calling native `import` method
+use the `setup` method to initialize from specific entrypoint file, then all dependency will got auto registered to the `importmap`, so that we can easily import our dependency by just calling native `import` method
 
 ```html
-<script>
-// initialize custom modules and create importmap
-CustomScript.setup({
-  entry: 'src/index.js',
-});
-</script>
+<!-- index.html -->
+<head>
+  <script>
+  // initialize custom modules and create importmap
+  CustomScript.setup({
+    entry: 'src/index.js',
+    vueCompilerPath: 'https://cdn.jsdelivr.net/npm/script-custom-module/dist/vue-parser.mjs',
+    importmap: {
+      imports: {
+        // only vue compile required
+        vue: 'https://unpkg.com/vue@3.2.41/dist/vue.esm-browser.js',
+        '@vue/compiler-sfc': 'https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@3.2.41/dist/compiler-sfc.esm-browser.js',
+        // any other es module can be predefined here to use in your project
+      },
+      scopes: {}
+    }
+  });
+  </script>
+</head>
 ```
 
 > Notice: `setup` will parse dependency from specific entrypoint, and loop into its dependencies.
+
+```js
+// entrypoint: index.js
+import { createApp } from 'vue';
+import App from 'src/App.vue';
+import 'src/index.css';
+import 'src/no.js';
+
+createApp(App).mount('#app');
+```
+
+> Notice: since the path starts with `/`, `./` will be considered as native esm, please import dependency always from root with relative path liked `src/xxxx.js` or `xxxx.css` with file extension so that CustomScript can parse your file with correct process.
 
 ### Run up a local server to serve your static content
 you can install [serve](https://www.npmjs.com/package/serve) or any other http service to run up a dev server for your folder.
@@ -41,7 +66,7 @@ the core method to initialize this plugin.
 ```js
 CustomScript.setup({
   entry: 'src/index.jsx', // required
-  publicPath: '', // optional, default: ''
+  publicPath: '', // optional, the path will be added before all your dependency import except vue compiler path, default: ''
   // optional, only if you need to compile Vue SFC file
   vueCompilerPath: 'https://cdn.jsdelivr.net/npm/script-custom-module/dist/vue-parser.mjs',
   // put anything you want to manually use in your project
@@ -78,8 +103,23 @@ dependency end with extension `vue` will got compiled by `@vue/compiler-sfc` plu
 > need to give the `vueCompilerPath` to `setup` options so that Vue compile can be compiled correctly.
 
 ### Sourcemap Mode
-waiting to update, to be continue...
+with sourcemap mode, all dependency are injected by a user provided map object, and CustomScript will only process those rawCode you provided in map to generate compiled content to serve on browser.
 
+```html
+<!-- index.html -->
+<script>
+window.CustomScript.setup({
+  // entry should also exists inside your sourceMap
+  entry: 'src/index.js',
+  sourceMap: {
+    'src/index.js': 'import sum from "src/sum.js";\nconsole.log(sum(1, 2));',
+    'src/sum.js': 'export default (a, b) => a + b;',
+  },
+});
+</script>
+```
+
+> Not support html file in sourcemap
 
 
 ## Use Demos
