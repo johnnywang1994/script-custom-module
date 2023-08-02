@@ -1,3 +1,4 @@
+// reference: https://github.com/vuejs/core/tree/main/packages/compiler-sfc/src
 import {
   parse,
   compileScript,
@@ -37,10 +38,12 @@ function parseVueSfc({ code, uid, filepath }: VueParserParams) {
     isProd: true,
     inlineTemplate: true,
     reactivityTransform: true,
+    propsDestructure: true,
+    defineModel: true,
     templateOptions: {
-      ssr: false,
+      ssr: false
       // transformAssetUrls: options.transformAssetUrls || true,
-    },
+    }
   });
   // console.log(scriptCode);
 
@@ -56,6 +59,7 @@ function parseVueSfc({ code, uid, filepath }: VueParserParams) {
       filename: filepath,
       scoped: scoped != null,
       trim: true,
+      isProd: true,
     }).then(({ code: styleCode }) => {
       injectStyle(styleCode, attrs.lang);
     });
@@ -75,7 +79,7 @@ function parseVueSfc({ code, uid, filepath }: VueParserParams) {
       scoped: hasScoped,
       slotted: descriptor.slotted,
       compilerOptions: {
-        scopeId: hasScoped ? `data-v-${uid}` : null,
+        scopeId: hasScoped ? `data-v-${uid}` : undefined,
       }
     });
     templateCode = template;
