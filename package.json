@@ -1,6 +1,6 @@
 {
   "name": "script-custom-module",
-  "version": "2.0.7",
+  "version": "2.1.0",
   "description": "A plugin written by Typescript to let developer compile ts,react,vue content in client side with native es module. No  bundler, just with one CDN and 4 lines configuration, and you are ready to use your favorite ES javascript to prototype your new idea.",
   "main": "dist/custom-script.global.js",
   "module": "dist/custom-script.global.js",
