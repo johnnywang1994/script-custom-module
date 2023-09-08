@@ -11,6 +11,24 @@ A plugin written by Typescript to let developer compile ts,react,vue content in 
 
 
 ## Install
+
+### Template Setup
+- Install this package as a global or local npm dependency
+- create and serve a testing project with default setting
+- open browser with url `http://localhost:1234`
+```bash
+# as global
+$ npm install -g script-custom-module
+$ create-scm
+$ serve-scm
+# or as local
+$ npm install script-custom-module
+$ npx create-scm
+$ npx serve-scm
+```
+
+
+### Manual Setup
 Since this plugin is mainly used in client browser, simply install with CDN.
 
 ```html
@@ -53,6 +71,18 @@ createApp(App).mount('#app');
 ### Run up a local server to serve your static content
 you can install [serve](https://www.npmjs.com/package/serve) or any other http service to run up a dev server for your folder.
 
+
+## Commands
+### create-scm [-t|--template=TEMPLATE] [PROJECT_DIR]
+create a new scm project with template
+- TEMPLATE: `react`, `vue`, default is `react`
+- PROJECT_DIR: project directory, default is `scm-project`
+
+### serve-scm {[-p|--port=PORT] [-h|--host=HOST]} [PROJECT_DIR]
+serve a folder with native Nodejs server by host and port
+- PORT: port number, default is `1234`
+- HOST: hostname, default is `localhost`
+- PROJECT_DIR: project directory, default is `scm-project`
 
 
 ## APIs

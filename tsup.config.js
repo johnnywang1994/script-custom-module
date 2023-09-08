@@ -14,5 +14,8 @@ export default [defineConfig({
   entry: ['src/vue-parser.ts'],
   format: ['esm'],
   splitting: false,
-  clean: true,
+}), defineConfig({
+  entry: ['src/scripts/*.ts'],
+  format: ['cjs'],
+  splitting: false,
 })]

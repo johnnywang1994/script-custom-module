@@ -5,6 +5,10 @@
   "main": "dist/custom-script.global.js",
   "module": "dist/custom-script.global.js",
   "author": "johnnywang",
+  "bin": {
+    "create-scm": "scripts/create.js",
+    "serve-scm": "scripts/serve.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johnnywang1994/script-custom-module.git"
@@ -25,11 +29,24 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup --minify"
+    "build": "tsup --minify",
+    "ci": "yarn install --immutable --immutable-cache --check-cache"
   },
   "dependencies": {
+    "@types/finalhandler": "^1.2.0",
+    "@types/minimist": "^1.2.2",
+    "@types/node": "^20.5.9",
+    "@types/serve-static": "^1.15.2",
     "@vue/compiler-sfc": "^3.3.4",
+    "copy-template-dir": "^1.4.0",
+    "finalhandler": "^1.2.0",
+    "minimist": "^1.2.8",
+    "ora": "^7.0.1",
+    "serve-static": "^1.15.0",
     "tsup": "^6.6.3",
     "typescript": "^4.9.5"
+  },
+  "engines": {
+    "node": "^16"
   }
 }

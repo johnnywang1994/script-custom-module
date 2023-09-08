@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{projectName}}</title>
+  <script src="https://cdn.jsdelivr.net/npm/script-custom-module/dist/custom-script.global.js"></script>
+  <script>
+    window.CustomScript.setup({
+      entry: 'src/index.jsx',
+      // default: ts
+      // available: ts, react(react18), react17, vue, all(ts + react + vue)
+      mode: 'react',
+      importmap: {
+        // register library with ES module, eg: echarts
+        imports: {
+          'echarts': 'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.esm.min.js',
+        },
+        scopes: {}
+      }
+    });
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>

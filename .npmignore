@@ -1,6 +1,7 @@
 .gitignore
 tsup.config.js
 yarn.lock
+/.github/
 /src/
 /test/
 aditional.d.ts
