@@ -1,13 +1,16 @@
 import compileSourceMap from "@/compile/sourcemap";
 import compileRoot from '@/compile/root';
+import defaultLoaders from "@/loaders";
+import BasicLoader from "@/loaders/basic";
 import { map, globalData, modeImportMaps } from "@/utils/constant";
 import { createImportMap, createEntry } from '@/utils/dom';
-import { revokeBlobUrls } from '@/utils/blob';
-import mergeImportMaps from '@/utils/merge-importmaps';
+import mergeImportMaps from '@/utils/mergeImportmaps';
 import { SetupOptions, RequiredSome } from "@/types";
 
 function setGlobalData(options: SetupOptions) {
-  const { publicPath, vueCompilerPath } = options;
+  const { publicPath, vueCompilerPath, loaders } = options;
+  // overwrite default loaders if user provided
+  globalData.loaders = loaders ?? defaultLoaders;
   if (typeof publicPath === 'string') {
     globalData.publicPath = publicPath;
   }
@@ -57,7 +60,7 @@ async function setupCustomScript(options: SetupOptions) {
   // mount entry
   document.head.appendChild(entryScript);
   // auto revoke all blobUrls before window unload
-  window.addEventListener('beforeunload', () => revokeBlobUrls(Object.values(map.imports)));
+  window.addEventListener('beforeunload', () => BasicLoader.blob.revokeBlobUrls(Object.values(map.imports)));
 }
 
 export default setupCustomScript;

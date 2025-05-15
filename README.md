@@ -92,6 +92,8 @@ In `window.CustomScript`, we can use following methods & states.
 the core method to initialize this plugin.
 
 ```js
+const { Loaders } = CustomScript;
+
 CustomScript.setup({
   // required, or provide <script type="root-module">
   entry: 'src/index.jsx',
@@ -117,6 +119,8 @@ CustomScript.setup({
   // optional, if you want to give the dependency module as object without fetching
   // reference to below part "Sourcemap Mode"
   sourceMap: {},
+  // optional, if you want to use your custom loader to compile files
+  loaders: window.CustomScript.defaultLoaders,
 });
 ```
 
@@ -132,6 +136,9 @@ dependency end with extension `css`, `scss` will got compiled by `Sass`, and aut
 ### Vue Compile
 dependency end with extension `vue` will got compiled by `@vue/compiler-sfc` plugin by esm, and auto generated `js`, `css` into `<head>` to load content.
 
+### Yaml Compile
+yaml files imported will be converted to json
+
 
 ### Sourcemap Mode
 with sourcemap mode, all dependency are injected by a user provided map object, and CustomScript will only process those rawCode you provided in map to generate compiled content to serve on browser.
@@ -145,12 +152,12 @@ window.CustomScript.setup({
   sourceMap: {
     'src/index.js': 'import sum from "src/sum.js";\nconsole.log(sum(1, 2));',
     'src/sum.js': 'export default (a, b) => a + b;',
+    'src/snippet.html': '<div>Hello World</div>',
+    'src/data.json': '{"status": 200}'
   },
 });
 </script>
 ```
-
-> Not support html file in sourcemap
 
 
 ### Root Module Entry
@@ -172,6 +179,49 @@ if the `entry` in options is not provided, CustomScript will search for `<script
     createApp(App).mount('#app');
   </script>
 </body>
+```
+
+
+### Loader System - Custom Loader
+If you want to compile your own file format, easily extend the `BasicLoader` class and define in your own.
+
+```js
+const { BasicLoader } = CustomScript;
+
+class MyPHPLoader extends BasicLoader {
+  static transform(url: string, rawContent?: string) {
+    // This will request your file content where you import from
+    const content = rawContent ? rawContent : super.requestFile(url);
+    // handle your file content here
+    const code = '...';
+    return {
+      code,
+      moduleUrl: super.blob.createBlobUrl(code, 'text/javascript'),
+    }
+  }
+
+  static compile(rawCode: string) {
+    super.compileBase(rawCode, (filepath) => {
+      // your own test regexp
+      if (!/(\.php)$/i.test(filepath)) return;
+      const { moduleUrl } = MyPHPLoader.transform(filepath);
+      // write to dependency importmap
+      super.writeModuleUrl(filepath, moduleUrl);
+    });
+  }
+}
+```
+
+then put your custom Loader inside `setup` options
+
+```js
+CustomScript.setup({
+  entry: 'src/index.jsx',
+  loaders: [
+    ...CustomScript.defaultLoaders,
+    MyPHPLoader,
+  ],
+});
 ```
 
 

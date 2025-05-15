@@ -37,9 +37,7 @@ function parseVueSfc({ code, uid, filepath }: VueParserParams) {
     id: uid,
     isProd: true,
     inlineTemplate: true,
-    reactivityTransform: true,
     propsDestructure: true,
-    defineModel: true,
     templateOptions: {
       ssr: false
       // transformAssetUrls: options.transformAssetUrls || true,
@@ -80,7 +78,18 @@ function parseVueSfc({ code, uid, filepath }: VueParserParams) {
       slotted: descriptor.slotted,
       compilerOptions: {
         scopeId: hasScoped ? `data-v-${uid}` : undefined,
-      }
+      },
+      // Not support template preprocessor currently
+      // preprocessCustomRequire: (id: string) => {
+      //   const langs: Record<string, any> = {
+      //     pug: { render: (res: unknown) => {
+      //       console.log(res);
+      //       return res;
+      //     } },
+      //   };
+      //   return langs[id] ;
+      // },
+      // preprocessLang: descriptor.template.lang,
     });
     templateCode = template;
   }

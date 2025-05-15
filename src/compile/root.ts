@@ -1,5 +1,4 @@
-import transformScript from '@/transform/script';
-import { getDepsMapByCode } from '@/compile/script';
+import ScriptLoader from '@/loaders/script';
 import { map } from '@/utils/constant';
 import { createEntry } from '@/utils/dom';
 
@@ -15,10 +14,10 @@ async function compileRoot(rootUrl: string) {
     rootContent = root.textContent as string;
   }
   // compile root
-  const { moduleUrl, code } = transformScript(rootUrl, rootContent);
+  const { moduleUrl, code } = ScriptLoader.transform(rootUrl, rootContent);
   map.imports[rootUrl] = moduleUrl;
   // get deps(need to await for root)
-  await getDepsMapByCode(code);
+  await ScriptLoader.getDepsMapByCode(code);
   // mount the entry module
   const entry = createEntry(moduleUrl);
   return entry;

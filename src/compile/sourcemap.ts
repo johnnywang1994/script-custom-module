@@ -1,24 +1,30 @@
 import { map, regexp } from '@/utils/constant';
-import transformScript from '@/transform/script';
-import transformVueSfc from '@/transform/vue';
-import transformStyle from '@/transform/style';
+import ScriptLoader from '@/loaders/script';
+import VueLoader from '@/loaders/vue';
+import StyleLoader from '@/loaders/style';
+import HTMLLoader from '@/loaders/html';
+import JsonLoader from '@/loaders/json';
+import YamlLoader from '@/loaders/yaml';
 
 async function compileSourceMap(sourcemap: Record<string, string>) {
   const customImports = map.imports;
   Object.keys(sourcemap).forEach((key) => {
-    // not suppported
-    if (key.endsWith('html')) return;
-
     const rawCode = sourcemap[key];
     let moduleUrl;
     // matching
     if (regexp.isScript.test(key)) {
-      ({ moduleUrl } = transformScript(key, rawCode));
+      ({ moduleUrl } = ScriptLoader.transform(key, rawCode));
       customImports[key] = moduleUrl;
     } else if (regexp.isVueSfc.test(key)) {
-      ({ moduleUrl } = transformVueSfc(key, rawCode));
+      ({ moduleUrl } = VueLoader.transform(key, rawCode));
     } else if (regexp.isStyle.test(key)) {
-      ({ moduleUrl } = transformStyle(key, rawCode));
+      ({ moduleUrl } = StyleLoader.transform(key, rawCode));
+    } else if (regexp.isHTML.test(key)) {
+      ({ moduleUrl } = HTMLLoader.transform(key, rawCode));
+    } else if (regexp.isJson.test(key)) {
+      ({ moduleUrl } = JsonLoader.transform(key, rawCode));
+    } else if (regexp.isYaml.test(key)) {
+      ({ moduleUrl } = YamlLoader.transform(key, rawCode));
     }
     if (moduleUrl) {
       customImports[key] = moduleUrl;

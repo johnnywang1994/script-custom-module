@@ -1,3 +1,5 @@
+import BasicLoader from "./loaders/basic";
+
 export type RequiredSome<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
 export type ImportMap = {
@@ -12,6 +14,7 @@ export interface SetupOptions {
   vueCompilerPath?: string;
   publicPath?: string;
   sourceMap?: Record<string, string>;
+  loaders?: (typeof BasicLoader)[];
 }
 
 export interface VueParserParams {

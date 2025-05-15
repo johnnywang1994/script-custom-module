@@ -5,15 +5,26 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Play</title>
-  <script src="https://cdn.jsdelivr.net/npm/script-custom-module/dist/custom-script.global.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/script-custom-module/dist/custom-script.global.js"></script> -->
+  <script src="http://localhost:5002/custom-script.global.js"></script>
   <script>
+    const { BasicLoader, Loaders } = window.CustomScript;
     window.CustomScript.setup({
       // if not provided, will search for `<script type="root-module">` textContent to compile as entry
       entry: 'src/index.jsx',
       // default: ts
       // available: ts, react(react18), react17, vue, all(ts + react + vue)
       mode: 'all',
+      vueCompilerPath: 'http://localhost:5002/vue-parser.mjs',
+      loaders: window.CustomScript.defaultLoaders,
+      // sourceMap: {
+      //   'src/index.jsx': 'import sum from "src/sum.js";\nconsole.log(sum(1, 2));import myHtml from "src/snippet.html";\nconsole.log(myHtml);import myJson from "src/data.json";\nconsole.log(myJson);',
+      //   'src/sum.js': 'export default (a, b) => a + b;',
+      //   'src/snippet.html': '<div>Hello World</div>',
+      //   'src/data.json': '{"status": 200}'
+      // },
     });
+    console.log(BasicLoader, Loaders);
   </script>
 </head>
 <body>

@@ -1,5 +1,6 @@
-import mergeImportMaps from "@/utils/merge-importmaps";
+import mergeImportMaps from "@/utils/mergeImportmaps";
 import { ImportMap } from "@/types";
+import type BasicLoader from "@/loaders/basic";
 
 // Not used, just for referencing
 // export const currentScript = document.currentScript || document.querySelector('script') as HTMLScriptElement;
@@ -18,13 +19,18 @@ export const reachedFilepath = new Set();
 export const regImportTemplate = /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*?)["']))[\s]*?(?:;|$|)/gi;
 
 export const regexp = {
-  importScriptFrom: /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*\.(j|t)sx?)["']))[\s]*?(?:;|$|)/gi,
-  importImageFrom: /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*\.(jpe?g|png|svg|gif))["']))[\s]*?(?:;|$|)/gi,
-  importCssFrom: /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*\.(sa|s?c)ss)["']))[\s]*?(?:;|$|)/gi,
-  importSfcFrom: /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*\.vue)["']))[\s]*?(?:;|$|)/gi,
+  // importScriptFrom: /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*\.(j|t)sx?)["']))[\s]*?(?:;|$|)/gi,
+  // importImageFrom: /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*\.(jpe?g|png|svg|gif))["']))[\s]*?(?:;|$|)/gi,
+  // importCssFrom: /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*\.(sa|s?c)ss)["']))[\s]*?(?:;|$|)/gi,
+  // importSfcFrom: /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*\.vue)["']))[\s]*?(?:;|$|)/gi,
+  importFrom: /(?<!\/\/)(?:^|\s)import\s+(?:{[^{}]+}|.*?)\s*(?:from)?\s*['"]([^'"]*)?['"]|import\(.*?\)/gmi,
   isScript: /(\.(j|t)sx?)$/i,
-  isVueSfc: /(\.vue)$/i,
   isStyle: /(\.(sa|s?c)ss)$/i,
+  isImage: /(\.(jpe?g|png|svg|gif))$/i,
+  isHTML: /(\.html)$/i,
+  isJson: /(\.json)$/i,
+  isYaml: /(\.ya?ml)$/i,
+  isVueSfc: /(\.vue)$/i,
 };
 
 export const globalData = {
@@ -32,6 +38,8 @@ export const globalData = {
   // vue compiler esm path
   vueCompiler:
     'https://cdn.jsdelivr.net/npm/script-custom-module/dist/vue-parser.mjs',
+  // loaders
+  loaders: [] as typeof BasicLoader[],
 };
 
 export enum Modes {

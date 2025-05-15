@@ -6,3 +6,5 @@ export const setup = async (options: SetupOptions) => {
   await loadDependency();
   setupCustomScript(options);
 };
+
+export { default as defaultLoaders, BasicLoader, Loaders } from '@/loaders';
