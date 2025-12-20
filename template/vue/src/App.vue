@@ -8,7 +8,7 @@
 
 <script setup>
 import * as echarts from 'echarts';
-import Counter from 'src/components/Counter.vue';
+import Counter from './components/Counter.vue';
 
 console.log(echarts);
 </script>

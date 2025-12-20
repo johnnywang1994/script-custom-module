@@ -2,7 +2,7 @@ import compileSourceMap from "@/compile/sourcemap";
 import compileRoot from '@/compile/root';
 import defaultLoaders from "@/loaders";
 import BasicLoader from "@/loaders/basic";
-import { map, globalData, modeImportMaps } from "@/utils/constant";
+import { map, globalData, modeImportMaps, nodeModulesDeps } from "@/utils/constant";
 import { createImportMap, createEntry } from '@/utils/dom';
 import mergeImportMaps from '@/utils/mergeImportmaps';
 import { SetupOptions, RequiredSome } from "@/types";
@@ -25,6 +25,10 @@ function setDefaultMode(options: SetupOptions) {
     mode = 'ts',
   } = options;
   options.importmap = mergeImportMaps(importmap, modeImportMaps[mode]);
+  // setup node_modules to nodeModulesDeps to ignore them during dependency parsing
+  Object.keys(options.importmap.imports).forEach((filepath) => {
+    nodeModulesDeps.add(filepath);
+  });
 }
 
 async function getEntryScript(options: SetupOptions) {

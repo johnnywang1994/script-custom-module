@@ -1,6 +1,6 @@
 import React from 'react';
 import * as echarts from 'echarts';
-import Counter from 'src/components/Counter.jsx';
+import Counter from './components/Counter.jsx';
 
 console.log(echarts);
 

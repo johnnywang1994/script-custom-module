@@ -8,6 +8,7 @@ import {
 
 import { createBlobUrl } from '@/utils/blob';
 import { createStyle } from '@/utils/dom';
+import transformBabel from '@/utils/babel';
 import { VueParserParams } from '@/types';
 
 function injectStyle(rawStyle: string, lang: string | boolean) {
@@ -43,7 +44,8 @@ function parseVueSfc({ code, uid, filepath }: VueParserParams) {
       // transformAssetUrls: options.transformAssetUrls || true,
     }
   });
-  // console.log(scriptCode);
+  const transformedScriptCode = transformBabel(scriptCode, filepath);
+  // console.log(transformedScriptCode);
 
   // parse styles with scoped check
   let hasCssModules = false;
@@ -95,7 +97,7 @@ function parseVueSfc({ code, uid, filepath }: VueParserParams) {
   }
 
   return {
-    scriptPath: createBlobUrl(scriptCode, 'text/javascript'),
+    scriptPath: createBlobUrl(transformedScriptCode, 'text/javascript'),
     templatePath: templateCode
       ? createBlobUrl(templateCode, 'text/javascript')
       : null,

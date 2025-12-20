@@ -3,6 +3,9 @@ declare namespace globalThis {
     setupCustomScript: any;
     Babel: any;
     Sass: any;
+    moduleResolver: any; // Babel module resolver plugin for browser
+    __nodeModulesDeps__: Set<string>;
+    __import_styles__: Record<string, boolean>;
   }
 }
 

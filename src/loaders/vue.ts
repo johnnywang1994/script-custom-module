@@ -1,6 +1,7 @@
 import { regexp, globalData } from '@/utils/constant';
 import BasicLoader from "./basic";
 import ScriptLoader from './script';
+import transformBabel from '@/utils/babel';
 
 class VueLoader extends BasicLoader {
   static transform(url: string, rawSfcCode?: string) {
@@ -48,10 +49,15 @@ export default script;`;
       const { moduleUrl, code: depCode } = VueLoader.transform(filepath);
       super.writeModuleUrl(filepath, moduleUrl);
 
-      const scriptStart = depCode.indexOf('<script');
-      const scriptEnd = depCode.lastIndexOf('</script');
-      const scriptContent = depCode.substring(scriptStart, scriptEnd);
-      return ScriptLoader.getDepsMapByCode(scriptContent);
+      // 支援多個 <script> tag，合併內容
+      const scriptMatches = Array.from(depCode.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi));
+      const scriptContent = scriptMatches.map(m => m[1]).join('\n');
+      return ScriptLoader.getDepsMapByCode(
+        // in order to parse dependencies in Vue SFC correctly
+        // we need to transform script content with babel first
+        transformBabel(scriptContent, filepath)
+        // then we also use transformBabel in VueParser, so dependencies can be resolved correctly
+      );
     });
   }
 }

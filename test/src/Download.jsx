@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { count } from 'src/utils.jsx';
+import { count } from './utils.jsx';
 
 const App = () => {
   const canvasRef = useRef(null);
@@ -27,7 +27,7 @@ const App = () => {
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
     const image = document.createElement('img');
-    image.src = 'https://pixiv.cat/102233001.jpg';
+    image.src = 'https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_16x9.jpg?w=300';
     image.crossOrigin = "anonymous";
     image.onload = () => ctx.drawImage(image, 0, 0);
   }, []);

@@ -59,14 +59,15 @@ use the `setup` method to initialize from specific entrypoint file, then all dep
 ```js
 // entrypoint: index.js
 import { createApp } from 'vue';
-import App from 'src/App.vue';
-import 'src/index.css';
-import 'src/no.js';
+import App from './App.vue';
+import './index.css';
+import './no.js';
 
 createApp(App).mount('#app');
 ```
 
-> Notice: since the path starts with `/`, `./` will be considered as native esm, please import dependency always from root with relative path liked `src/xxxx.js` or `xxxx.css` with file extension so that CustomScript can parse your file with correct process.
+> Notice: from v4.0.0, you can now use relative path to import your local files. if you're still using absolute path like `/src/xxxx.js`, please change to relative path to avoid issues.
+
 
 ### Run up a local server to serve your static content
 you can install [serve](https://www.npmjs.com/package/serve) or any other http service to run up a dev server for your folder.
@@ -98,7 +99,7 @@ CustomScript.setup({
   // required, or provide <script type="root-module">
   entry: 'src/index.jsx',
   // default: ts
-  // available: ts, react(react18), react17, vue(vue3), all(ts + react + vue)
+  // available: ts, react(react19), react17, vue(vue3), all(ts + react + vue)
   // each mode will auto inject necessary imports & scopes in import map
   mode: 'ts',
   // optional, the path will be added before all your dependency import except vue compiler path, default: ''

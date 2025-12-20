@@ -14,6 +14,9 @@ export const map: ImportMap = {
 // will cache filepath once the filepath starts compiling in order to speed up compile deps
 export const reachedFilepath = new Set();
 
+export const nodeModulesDeps = new Set<string>();
+window.__nodeModulesDeps__ = nodeModulesDeps;
+
 // Not used, just for referencing
 // https://regexr.com/47jlq
 export const regImportTemplate = /import\s+?(?:(?:(?:[\w*\s{},]*)\s+from\s+?)|)(?:(?:["'](.*?)["']))[\s]*?(?:;|$|)/gi;
@@ -58,15 +61,12 @@ export const modeImportMaps: Record<Modes, ImportMap> = (() => {
     },
     react: {
       imports: {
-        "react": "https://ga.jspm.io/npm:react@18.2.0/dev.index.js",
-        "react-dom": "https://ga.jspm.io/npm:react-dom@18.2.0/dev.index.js",
-        "react-dom/client": "https://ga.jspm.io/npm:react-dom@18.2.0/dev.client.js",
+        "react": "https://ga.jspm.io/npm:react@19.2.3/dev.index.js",
+        "react-dom": "https://ga.jspm.io/npm:react-dom@19.2.3/dev.index.js",
+        "react-dom/client": "https://ga.jspm.io/npm:react-dom@19.2.3/dev.client.js",
+        "scheduler": "https://ga.jspm.io/npm:scheduler@0.27.0/dev.index.js"
       },
-      scopes: {
-        "https://ga.jspm.io/": {
-          "scheduler": "https://ga.jspm.io/npm:scheduler@0.23.0/dev.index.js"
-        },
-      },
+      scopes: {},
     },
     react17: {
       imports: {

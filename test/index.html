@@ -18,11 +18,18 @@
       vueCompilerPath: 'http://localhost:5002/vue-parser.mjs',
       loaders: window.CustomScript.defaultLoaders,
       // sourceMap: {
-      //   'src/index.jsx': 'import sum from "src/sum.js";\nconsole.log(sum(1, 2));import myHtml from "src/snippet.html";\nconsole.log(myHtml);import myJson from "src/data.json";\nconsole.log(myJson);',
+      //   'src/index.jsx': 'import sum from "./sum.js";\nconsole.log(sum(1, 2));import myHtml from "./snippet.html";\nconsole.log(myHtml);import myJson from "./data.json";\nconsole.log(myJson);import "./lib/test.js";',
       //   'src/sum.js': 'export default (a, b) => a + b;',
       //   'src/snippet.html': '<div>Hello World</div>',
-      //   'src/data.json': '{"status": 200}'
+      //   'src/data.json': '{"status": 200}',
+      //   'src/lib/test.js': 'import myHtml from "../snippet.html";console.log("test", myHtml);'
       // },
+      importmap: {
+        imports: {},
+        scopes: {
+          "https://ga.jspm.io/": {}
+        }
+      }
     });
     console.log(BasicLoader, Loaders);
   </script>

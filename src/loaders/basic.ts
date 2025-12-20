@@ -1,6 +1,7 @@
 import { map, regexp, reachedFilepath, globalData } from "@/utils/constant";
 import { createBlobUrl, revokeBlobUrls } from "@/utils/blob";
 
+
 class BasicLoader {
   static blob: {
     createBlobUrl: (code: string, type?: string) => string;
@@ -33,6 +34,7 @@ class BasicLoader {
     for (const match of matches) {
       const filepath = match[1];
       if (reachedFilepath.has(filepath)) continue;
+
       const result = handler(filepath);
       if (typeof result !== 'undefined') {
         promises.push(result);
@@ -46,7 +48,7 @@ class BasicLoader {
     throw new Error('Method not implemented.');
   }
 
-  static compile(rawCode: string) {
+  static compile(code: string) {
     throw new Error('Method not implemented.');
   }
 }
