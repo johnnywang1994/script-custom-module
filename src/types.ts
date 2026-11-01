@@ -10,7 +10,7 @@ export type ImportMap = {
 export interface SetupOptions {
   importmap?: ImportMap;
   entry: string;
-  mode: 'ts' | 'react' | 'react17' | 'vue' | 'all';
+  mode: 'ts' | 'react' | 'vue' | 'all';
   vueCompilerPath?: string;
   publicPath?: string;
   sourceMap?: Record<string, string>;

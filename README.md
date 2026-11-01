@@ -99,7 +99,7 @@ CustomScript.setup({
   // required, or provide <script type="root-module">
   entry: 'src/index.jsx',
   // default: ts
-  // available: ts, react(react19), react17, vue(vue3), all(ts + react + vue)
+  // available: ts, react(react19), vue(vue3), all(ts + react + vue)
   // each mode will auto inject necessary imports & scopes in import map
   mode: 'ts',
   // optional, the path will be added before all your dependency import except vue compiler path, default: ''

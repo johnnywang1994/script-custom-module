@@ -48,7 +48,6 @@ export const globalData = {
 export enum Modes {
   TS = 'ts',
   REACT = 'react',
-  REACT_17 = 'react17',
   VUE = 'vue',
   ALL = 'all',
 }
@@ -64,15 +63,8 @@ export const modeImportMaps: Record<Modes, ImportMap> = (() => {
         "react": "https://ga.jspm.io/npm:react@19.2.3/dev.index.js",
         "react-dom": "https://ga.jspm.io/npm:react-dom@19.2.3/dev.index.js",
         "react-dom/client": "https://ga.jspm.io/npm:react-dom@19.2.3/dev.client.js",
+        "react/jsx-runtime": "https://ga.jspm.io/npm:react@19.2.3/jsx-runtime.js",
         "scheduler": "https://ga.jspm.io/npm:scheduler@0.27.0/dev.index.js"
-      },
-      scopes: {},
-    },
-    react17: {
-      imports: {
-        react: 'https://unpkg.com/@esm-bundle/react/esm/react.development.js',
-        'react-dom': 'https://unpkg.com/@esm-bundle/react-dom/esm/react-dom.development.js',
-        'react-is': 'https://unpkg.com/@esm-bundle/react-is/esm/react-is.development.js',
       },
       scopes: {},
     },
